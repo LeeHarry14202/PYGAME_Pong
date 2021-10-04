@@ -1,5 +1,9 @@
 import pygame.draw
 
+BORDER = 20
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+
 
 class WORLD:
     def __init__(self):
@@ -23,7 +27,7 @@ class BALL:
         self.direction = 'LEFT'
 
     def draw(self):
-        screen = pygame.display.set_mode((800, 600))
+        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.update()
         pygame.draw.circle(screen, COLOR.RED, (self.x, self.y), self.RADIUS)
 
@@ -31,9 +35,9 @@ class BALL:
         newx = self.x + self.VELOCITY_X
         newy = self.y + self.VELOCITY_Y
 
-        if newx < BORDER + self.RADIUS or newx > 800 - BORDER - self.RADIUS:
+        if newx < BORDER + self.RADIUS:
             self.VELOCITY_X = - self.VELOCITY_X
-        elif newy < BORDER + self.RADIUS or newy > 600 - BORDER - self.RADIUS:
+        elif newy < BORDER + self.RADIUS or newy > SCREEN_HEIGHT - BORDER - self.RADIUS:
             self.VELOCITY_Y = - self.VELOCITY_Y
         else:
             self.x += self.VELOCITY_X
@@ -54,16 +58,13 @@ class PADDLE:
 
     def update(self):
         if self.direction == 'UP':
-            self.y -= 3
+            self.y -= 5
             if self.y <= 0 + BORDER:
                 self.direction = 'DOWN'
         if self.direction == 'DOWN':
-            self.y += 4
+            self.y += 5
             if self.y > 500 - BORDER:
                 self.direction = 'UP'
-
-
-BORDER = 20
 
 
 class WALL:
