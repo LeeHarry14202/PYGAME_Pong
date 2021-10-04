@@ -17,7 +17,8 @@ class BALL:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.VELOCITY = -5
+        self.VELOCITY_X = -5
+        self.VELOCITY_Y = -5
         self.RADIUS = 15
         self.direction = 'LEFT'
 
@@ -27,16 +28,16 @@ class BALL:
         pygame.draw.circle(screen, COLOR.RED, (self.x, self.y), self.RADIUS)
 
     def update(self):
-        newx = self.x + self.VELOCITY
-        newy = self.y + self.VELOCITY
+        newx = self.x + self.VELOCITY_X
+        newy = self.y + self.VELOCITY_Y
 
         if newx < BORDER + self.RADIUS or newx > 800 - BORDER - self.RADIUS:
-            self.VELOCITY = - self.VELOCITY
+            self.VELOCITY_X = - self.VELOCITY_X
         elif newy < BORDER + self.RADIUS or newy > 600 - BORDER - self.RADIUS:
-            self.VELOCITY = - self.VELOCITY
+            self.VELOCITY_Y = - self.VELOCITY_Y
         else:
-            self.x += self.VELOCITY
-            self.y += self.VELOCITY
+            self.x += self.VELOCITY_X
+            self.y += self.VELOCITY_Y
 
 
 class PADDLE:

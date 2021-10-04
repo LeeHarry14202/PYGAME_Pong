@@ -1,6 +1,7 @@
 import pygame
 import sys
 import my_class
+
 pygame.init()
 
 SCREEN_WIDTH = 800
@@ -13,20 +14,19 @@ clock = pygame.time.Clock()
 
 # Object init
 world = my_class.WORLD()
-COLOR = my_class.COLOR()
+color = my_class.COLOR()
 ball = my_class.BALL(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 wall = my_class.WALL()
 paddle = my_class.PADDLE(SCREEN_WIDTH - BORDER, SCREEN_HEIGHT / 2)
 
 while True:
-    screen.fill(COLOR.BLACK)
+    screen.fill(color.BLACK)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                # pygame.quit()
                 sys.exit()
             if event.key == pygame.K_UP:
                 paddle.direction = 'UP'
