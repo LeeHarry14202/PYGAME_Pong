@@ -65,7 +65,7 @@ class PADDLE:
         self.x = x
         self.y = y
         self.WIDTH = 20
-        self.HEIGHT = 100
+        self.HEIGHT = 150
         self.direction = 'UP'
         self.rect = pygame.Rect(self.x, self.y, self.WIDTH, self.HEIGHT)
 
@@ -80,7 +80,7 @@ class PADDLE:
                 self.direction = 'DOWN'
         if self.direction == 'DOWN':
             self.y += 5
-            if self.y > 500 - BORDER:
+            if self.y > SCREEN_HEIGHT - BORDER:
                 self.direction = 'UP'
         # Update paddle rect
         self.rect = pygame.Rect(self.x, self.y, self.WIDTH, self.HEIGHT)
