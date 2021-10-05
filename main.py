@@ -1,5 +1,6 @@
 import pygame
 import sys
+import pandas as pd
 import my_class
 
 pygame.init()
@@ -21,8 +22,21 @@ paddle = my_class.PADDLE(SCREEN_WIDTH - BORDER, SCREEN_HEIGHT / 2)
 
 # sample = open("game.csv", "w")
 
-# print("x,t,vx,vy,Paddle.y", file = sample)
+# print("x,y,vx,vy,Paddle.y", file = sample)
 
+pong = pd.read_csv('./game.csv')
+pong = pong.drop_duplicates()
+
+from sklearn.neighbors import KNeighborsRegressor
+
+X = pong.drop(columns ="Paddle.y")
+y = pong["Paddle.y"]
+
+clf = KNeighborsRegressor(n_neighbors = 3)
+
+clf = clf.fit(X, y)
+
+df = pd.DataFrame(columns=['x','y','vx','vy'])
 
 def main():
     while True:
@@ -52,7 +66,17 @@ def main():
                 # Draw wall
                 wall.draw(screen, SCREEN_WIDTH, SCREEN_HEIGHT)
 
+                # Predict y position of paddle
+                to_predict = df.append({'x' : ball.x, 'y' : ball.y,
+                                        'vx': ball.VELOCITY_X, 'vy' : ball.VELOCITY_Y}, ignore_index = True)
+
+                new_paddle_y_pos = clf.predict(to_predict)
+
+                new_paddle_y_pos = float(new_paddle_y_pos[0])
+                # Update y paddle 
+                paddle.y = new_paddle_y_pos
                 # Draw paddle
+
                 paddle.draw(screen)
 
                 # Check collision
@@ -61,6 +85,7 @@ def main():
 
                 if ball.x > SCREEN_WIDTH - BORDER:
                     world.restart(ball, paddle)
+
 
                 # Collect data
                 # print("{},{},{},{},{}".format(ball.x, ball.y, ball.VELOCITY_X, ball.VELOCITY_Y, paddle.y), file = sample)
