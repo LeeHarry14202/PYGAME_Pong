@@ -28,24 +28,38 @@ def main():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    sys.exit()
-                if event.key == pygame.K_UP:
-                    paddle.direction = 'UP'
-                if event.key == pygame.K_DOWN:
-                    paddle.direction = 'DOWN'
+                # Press ESC to exit
+                if world.game_status:
+                    if event.key == pygame.K_ESCAPE:
+                        sys.exit()
+                    if event.key == pygame.K_UP:
+                        paddle.direction = 'UP'
+                    if event.key == pygame.K_DOWN:
+                        paddle.direction = 'DOWN'
+                else:
+                    # Press SPACE to restart
+                    if event.key == pygame.K_SPACE and world.game_status is False:
+                        world.restart(ball, paddle)
 
-            # Draw Ball
-            ball.draw()
+            if world.game_status:
+                # Draw Ball
+                ball.draw()
 
-            # Draw wall
-            wall.draw(screen, SCREEN_WIDTH, SCREEN_HEIGHT)
+                # Draw wall
+                wall.draw(screen, SCREEN_WIDTH, SCREEN_HEIGHT)
 
-            # Draw paddle
-            paddle.draw(screen)
+                # Draw paddle
+                paddle.draw(screen)
+
+                # Check collision
+                if ball.rect.colliderect(paddle.rect):
+                    ball.VELOCITY_X *= -1
+
+                if ball.x > SCREEN_WIDTH:
+                    world.game_status = False
 
             pygame.display.update()
-            clock.tick(60)
+            clock.tick(90)
 
 
 if __name__ == "__main__":
