@@ -12,11 +12,16 @@ class WORLD:
         self.game_status = True
 
     def restart(self, ball, paddle):
+
         ball.x = SCREEN_WIDTH / 2
         ball.y = SCREEN_HEIGHT / 2
+        ball.VELOCITY_X *= -1
+        ball.VELOCITY_Y *= -1
+
         paddle.x = SCREEN_WIDTH - BORDER
         paddle.y = SCREEN_HEIGHT / 2
-        self.game_status = True
+
+        # self.game_status = True
 
 
 class COLOR:

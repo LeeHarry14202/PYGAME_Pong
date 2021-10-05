@@ -19,6 +19,10 @@ ball = my_class.BALL(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 wall = my_class.WALL()
 paddle = my_class.PADDLE(SCREEN_WIDTH - BORDER, SCREEN_HEIGHT / 2)
 
+# sample = open("game.csv", "w")
+
+# print("x,t,vx,vy,Paddle.y", file = sample)
+
 
 def main():
     while True:
@@ -36,10 +40,10 @@ def main():
                         paddle.direction = 'UP'
                     if event.key == pygame.K_DOWN:
                         paddle.direction = 'DOWN'
-                else:
-                    # Press SPACE to restart
-                    if event.key == pygame.K_SPACE and world.game_status is False:
-                        world.restart(ball, paddle)
+                # else:
+                #     # Press SPACE to restart
+                #     if event.key == pygame.K_SPACE and world.game_status is False:
+                #         world.restart(ball, paddle)
 
             if world.game_status:
                 # Draw Ball
@@ -55,8 +59,11 @@ def main():
                 if ball.rect.colliderect(paddle.rect):
                     ball.VELOCITY_X *= -1
 
-                if ball.x > SCREEN_WIDTH:
-                    world.game_status = False
+                if ball.x > SCREEN_WIDTH - BORDER:
+                    world.restart(ball, paddle)
+
+                # Collect data
+                # print("{},{},{},{},{}".format(ball.x, ball.y, ball.VELOCITY_X, ball.VELOCITY_Y, paddle.y), file = sample)
 
             pygame.display.update()
             clock.tick(90)
